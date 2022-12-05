@@ -67,10 +67,17 @@ class Transaction:
   def isEmpty(self):
     return len(self.content) == 0
 
+def printTransaction(t):
+  for i in range(len(t)):
+    if (i == len(t)-1):
+      print(t[i])
+    else:
+      print(t[i], end="; ")
+  print()
+
 if __name__ == '__main__':
 
   t = []
-  count_t = 0
   filename = input("Input your file: ")
 
   try:
@@ -78,21 +85,22 @@ if __name__ == '__main__':
       lines = f.read().split(";")
       for i in lines:
         t.append(i)
-        count_t += 1
 
   except OSError as e:
     print("File not found!")
+    exit()
 
   transaction = Transaction(t)
   final = []
 
-  print(transaction.content)
+  print("Input: ")
+  printTransaction(transaction.content)
 
   while (not transaction.isEmpty()):
     current = transaction.setLocks()
-    print(f"Content: {transaction.content}")
-    print(f"Locks: {transaction.locks}")
     if (not current == None):
       final.append(current[0])
       final.append(current[1])
-      print(final)
+
+  print("Output: ")
+  printTransaction(final)
